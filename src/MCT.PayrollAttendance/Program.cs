@@ -8,9 +8,23 @@ static class Program
     [STAThread]
     static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-        Application.Run(new Forms.MainForm());
-    }    
+
+        while (true)
+        {
+            using var loginForm = new Forms.LoginForm();
+            if (loginForm.ShowDialog() != DialogResult.OK)
+            {
+                break;
+            }
+
+            using var mainForm = new Forms.MainForm();
+            Application.Run(mainForm);
+
+            if (!mainForm.LoggedOut)
+            {
+                break;
+            }
+        }
+    }
 }
